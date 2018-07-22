@@ -12,8 +12,8 @@
 
 int main() {
     int64_t num = NUM;
-    for (int i = 2; i < num; i++) {
-        while (num % i == 0) {
+    for (int i = 2; i * i <= num; i++) {
+        while (num % i == 0 && num != i) {
             num /= i;
         }
     }
