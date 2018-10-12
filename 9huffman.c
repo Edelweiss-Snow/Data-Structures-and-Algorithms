@@ -29,14 +29,14 @@ void build(int n, HFNode *arr[]) {
     for (int times = 0; times < n - 1; times++) {
         HFNode *minNode = arr[0];
         int ind = 0;
-        for (int i = 0; i < n - times; i++) {
+        for (int i = 1; i < n - times; i++) {
             if (arr[i]->freq >= minNode->freq) continue;
             minNode = arr[i];
             ind = i;
         }
         swap(arr[ind], arr[n - times - 1]);
         minNode = arr[0];
-        for (int i = 0; i < n - times - 1; i++) {
+        for (int i = 1; i < n - times - 1; i++) {
             if (arr[i]->freq >= minNode->freq) continue;
             minNode = arr[i];
             ind = i;

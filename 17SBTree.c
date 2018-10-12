@@ -56,22 +56,30 @@ SBTNode *right_rotate(SBTNode *root) {
 }
 
 SBTNode *maintain(SBTNode *root) {
+    if (root == NIL) return root;
+    /*
+    if (root->lchild == NIL && root->rchild == NIL) return root;
     if (root->rchild->size > MAX(root->lchild->lchild->size, root->lchild->rchild->size)
        && root->lchild->size > MAX(root->rchild->rchild->size, root->rchild->lchild->size)) {
         return root;
     }
-    if (root->rchild->size < root->lchild->size) {
-        if (root->rchild->size < root->lchild->rchild->size) {
-            root->lchild = left_rotate(root->lchild);
-        }
+    */
+    if (root->rchild->rchild->size > root->lchild->size) {
+        root = left_rotate(root);
+    } else if (root->rchild->lchild->size > root->lchild->size) {
+        root->rchild = right_rotate(root->rchild);
+        root = left_rotate(root);
+    } else if (root->lchild->lchild->size > root->rchild->size) {
+        root = right_rotate(root);
+    } else if (root->lchild->rchild->size > root->rchild->size) {
+        root->lchild = left_rotate(root->lchild);
         root = right_rotate(root);
     } else {
-        if (root->lchild->size < root->rchild->lchild->size) {
-            root->rchild = right_rotate(root->rchild);
-        }
-        root = left_rotate(root);
+        return root;
     }
-    return root;
+    root->lchild = maintain(root->lchild);
+    root->rchild = maintain(root->rchild);
+    return maintain(root);
 }
 
 SBTNode *precessor(SBTNode *root) {
@@ -81,7 +89,7 @@ SBTNode *precessor(SBTNode *root) {
 }
 
 SBTNode *insert(SBTNode *root, int data) {
-    if (root == NIL) root = get_node(data);
+    if (root == NIL) return get_node(data);
     if (root->key == data) return root;
     if (root->key > data) root->lchild = insert(root->lchild, data);
     else root->rchild = insert(root->rchild, data);
@@ -118,8 +126,9 @@ SBTNode *delete_node(SBTNode *root, int data) {
 
 void output(SBTNode *root) {
     if (root == NIL) return ;
-    printf("%d\n", root->key);
     output(root->lchild);
+	printf("%d:%d ", root->key, root->size);
+    fflush(stdout);
     output(root->rchild);
 }
 
