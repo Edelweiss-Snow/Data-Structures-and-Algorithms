@@ -49,7 +49,7 @@ int search(Trie root, const char *str) {
     Node *p = root;
     int i = 0;
     while (p && str[i]) {
-        int ind = str[i] - BASE_LETTER;
+        int ind = str[i++] - BASE_LETTER;
         p = p->next[ind];
     }
     return (p && p->flag);
